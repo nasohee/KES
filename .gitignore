@@ -20,3 +20,8 @@ target/
 # 기타
 *.class
 .DS_Store
+
+# Environment / Secrets
+.env
+.env.*
+!.env.example
