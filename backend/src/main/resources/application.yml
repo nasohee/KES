@@ -1,6 +1,14 @@
-# DB 접속정보·포트 (비밀번호는 env로 빼기 권장)
 spring:
   datasource:
-    # url: ...
-    # username: ...
-    # password: ${DB_PASSWORD}
+    url: jdbc:mysql://localhost:3306/kes?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: kes
+    password: kes1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 8080
