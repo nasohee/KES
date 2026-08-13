@@ -5,3 +5,18 @@ node_modules/
 __pycache__/
 *.pkl
 *.json
+
+# Gradle 및 빌드 결과물
+.gradle/
+build/
+out/
+target/
+
+# IDE 관련 파일 (IntelliJ, VSCode 등)
+.idea/
+*.iml
+.vscode/
+
+# 기타
+*.class
+.DS_Store
