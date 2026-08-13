@@ -1,0 +1,4 @@
+// TODO: Spring Boot, JPA, MySQL 의존성 등 추가
+plugins {
+    // ...
+}

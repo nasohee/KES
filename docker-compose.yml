@@ -1,0 +1,5 @@
+# 4개 서비스(db·ai·backend·frontend) 한 번에 실행 [SR-006]
+version: '3.8'
+
+services:
+  # TODO: db, ai, backend, frontend 서비스 설정 추가

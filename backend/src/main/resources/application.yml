@@ -1,0 +1,6 @@
+# DB 접속정보·포트 (비밀번호는 env로 빼기 권장)
+spring:
+  datasource:
+    # url: ...
+    # username: ...
+    # password: ${DB_PASSWORD}

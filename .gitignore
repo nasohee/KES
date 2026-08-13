@@ -1,0 +1,7 @@
+# models/, data/, node_modules/, __pycache__ 등 제외
+models/
+data/
+node_modules/
+__pycache__/
+*.pkl
+*.json
