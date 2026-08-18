@@ -1,10 +1,12 @@
 package com.kes.bms.controller;
 
+import com.kes.bms.dto.BatteryDetailResponse;
 import com.kes.bms.dto.BatteryListWrapper;
 import com.kes.bms.service.BatteryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,5 +20,12 @@ public class BatteryController {
     @GetMapping
     public ResponseEntity<BatteryListWrapper> getBatteries() {
         return ResponseEntity.ok(batteryService.getBatteries());
+    }
+
+    @GetMapping("/{batteryId}")
+    public ResponseEntity<BatteryDetailResponse> getBattery(
+            @PathVariable String batteryId
+    ) {
+        return ResponseEntity.ok(batteryService.getBattery(batteryId));
     }
 }
