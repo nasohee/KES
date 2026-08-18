@@ -1,2 +1,13 @@
-# Python: 분석·학습·예측 [FR-001~005] 환경 구성
-# TODO: Python 이미지, requirements.txt 설치, 소스 복사, 실행 명령 등
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# 의존성 설치
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 소스 복사
+COPY . .
+
+# 파이프라인 실행
+CMD ["python", "run_pipeline.py"]

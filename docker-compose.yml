@@ -14,8 +14,35 @@ services:
 
     volumes:
       - kes_mysql_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
     restart: unless-stopped
+
+  ai:
+    build: ./ai
+    container_name: kes-ai
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: kes
+      DB_USER: kes
+      DB_PASSWORD: ${DB_PASSWORD}
+
+    volumes:
+      - ./cleaned_dataset/metadata.csv:/app/data/raw/metadata.csv
+      - ./cleaned_dataset/data:/app/data/raw/data
+      - ./PSIM_BMS_Simulation_Data.csv:/app/data/raw/PSIM_BMS_Simulation_Data.csv
 
 volumes:
   kes_mysql_data:
