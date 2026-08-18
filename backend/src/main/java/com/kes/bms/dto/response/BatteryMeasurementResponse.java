@@ -1,4 +1,4 @@
-package com.kes.bms.dto;
+package com.kes.bms.dto.response;
 
 import com.kes.bms.entity.BatteryMeasurement;
 import lombok.Getter;

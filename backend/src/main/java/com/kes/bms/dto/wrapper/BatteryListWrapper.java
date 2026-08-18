@@ -1,5 +1,6 @@
-package com.kes.bms.dto;
+package com.kes.bms.dto.wrapper;
 
+import com.kes.bms.dto.response.BatteryListResponse;
 import lombok.Getter;
 
 import java.util.List;

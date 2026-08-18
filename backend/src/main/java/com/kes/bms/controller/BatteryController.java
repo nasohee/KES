@@ -1,8 +1,9 @@
 package com.kes.bms.controller;
 
-import com.kes.bms.dto.BatteryDetailResponse;
-import com.kes.bms.dto.BatteryListWrapper;
-import com.kes.bms.dto.BatteryMeasurementWrapper;
+import com.kes.bms.dto.response.BatteryDetailResponse;
+import com.kes.bms.dto.wrapper.BatteryDegradationWrapper;
+import com.kes.bms.dto.wrapper.BatteryListWrapper;
+import com.kes.bms.dto.wrapper.BatteryMeasurementWrapper;
 import com.kes.bms.service.BatteryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,15 @@ public class BatteryController {
     ) {
         return ResponseEntity.ok(
                 batteryService.getMeasurements(batteryId)
+        );
+    }
+
+    @GetMapping("/{batteryId}/degradation")
+    public ResponseEntity<BatteryDegradationWrapper> getDegradation(
+            @PathVariable String batteryId
+    ) {
+        return ResponseEntity.ok(
+                batteryService.getDegradation(batteryId)
         );
     }
 }
