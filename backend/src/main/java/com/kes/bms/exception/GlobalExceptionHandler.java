@@ -20,4 +20,15 @@ public class GlobalExceptionHandler {
                         "message", e.getMessage()
                 ));
     }
+
+    @ExceptionHandler(BmsDataNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleBmsDataNotFound(
+            BmsDataNotFoundException e
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(Map.of(
+                        "message", e.getMessage()
+                ));
+    }
 }
