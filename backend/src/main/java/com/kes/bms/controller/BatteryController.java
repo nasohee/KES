@@ -2,6 +2,7 @@ package com.kes.bms.controller;
 
 import com.kes.bms.dto.BatteryDetailResponse;
 import com.kes.bms.dto.BatteryListWrapper;
+import com.kes.bms.dto.BatteryMeasurementWrapper;
 import com.kes.bms.service.BatteryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,5 +28,14 @@ public class BatteryController {
             @PathVariable String batteryId
     ) {
         return ResponseEntity.ok(batteryService.getBattery(batteryId));
+    }
+
+    @GetMapping("/{batteryId}/measurements")
+    public ResponseEntity<BatteryMeasurementWrapper> getMeasurements(
+            @PathVariable String batteryId
+    ) {
+        return ResponseEntity.ok(
+                batteryService.getMeasurements(batteryId)
+        );
     }
 }
