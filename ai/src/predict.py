@@ -6,8 +6,6 @@ import pandas as pd
 import joblib
 
 from feature_extractor import get_target_column
-from preprocessor import get_initial_capacities
-
 
 def predict_soh(
     model,
@@ -30,21 +28,18 @@ def predict_soh(
         (battery_id, cycle, actual_capacity, predicted_capacity,
          actual_soh, predicted_soh, model_name, prediction_error, split_type)
     """
-    # 배터리별 초기 capacity
-    initial_caps = get_initial_capacities(processed_df)
-
     predictions = features_df[['battery_id', 'cycle', 'capacity',
                                 'predicted_capacity', 'split_type']].copy()
 
     predictions = predictions.rename(columns={'capacity': 'actual_capacity'})
 
-    # SOH 계산
+    # SOH 계산 (정격 용량 2.0Ah 기준 통일)
     predictions['actual_soh'] = predictions.apply(
-        lambda row: (row['actual_capacity'] / initial_caps.get(row['battery_id'], 1.0)) * 100,
+        lambda row: (row['actual_capacity'] / 2.0) * 100,
         axis=1
     )
     predictions['predicted_soh'] = predictions.apply(
-        lambda row: (row['predicted_capacity'] / initial_caps.get(row['battery_id'], 1.0)) * 100,
+        lambda row: (row['predicted_capacity'] / 2.0) * 100,
         axis=1
     )
 
