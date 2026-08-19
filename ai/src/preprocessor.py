@@ -84,9 +84,10 @@ def _process_single_battery(
     df['re'] = df['re'].bfill()
     df['rct'] = df['rct'].bfill()
 
-    # SOH 산출: (현재 Capacity / 최초 Capacity) * 100
-    initial_capacity = df['Capacity'].iloc[0]
-    df['soh'] = (df['Capacity'] / initial_capacity) * 100.0
+    # SOH 산출: (현재 Capacity / 정격 Capacity) * 100
+    # NASA 데이터셋 배터리의 정격 용량(Rated Capacity)은 2.0 Ah
+    rated_capacity = 2.0
+    df['soh'] = (df['Capacity'] / rated_capacity) * 100.0
 
     # 결과 컬럼 정리
     result = df[[
