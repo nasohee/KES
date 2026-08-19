@@ -14,7 +14,6 @@ import {
   getMockDegradation,
   getMockBmsData,
   getMockBmsStatus,
-  getMockModelMetrics,
 } from '../data/mockData';
 
 // ---------------------------------------------------------------------------
@@ -91,5 +90,7 @@ export async function fetchBmsStatus(): Promise<BmsStatus> {
 // ---------------------------------------------------------------------------
 
 export async function fetchModelMetrics(): Promise<ModelMetrics> {
-  return getMockModelMetrics();
+    const { data } = await apiClient.get<ModelMetrics>('/api/models');
+    return data;
+
 }
