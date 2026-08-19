@@ -53,7 +53,12 @@ def upload_battery_master(summary_df: pd.DataFrame, engine=None):
     if engine is None:
         engine = get_db_engine()
 
-    summary_df.to_sql('battery', engine, if_exists='replace', index=False)
+    with engine.begin() as conn:
+        conn.execute(text("SET FOREIGN_KEY_CHECKS = 0;"))
+        conn.execute(text("TRUNCATE TABLE battery;"))
+        conn.execute(text("SET FOREIGN_KEY_CHECKS = 1;"))
+
+    summary_df.to_sql('battery', engine, if_exists='append', index=False)
     print(f"[DB] battery 테이블 적재: {len(summary_df)}건")
 
 
@@ -80,7 +85,12 @@ def upload_measurements(processed_df: pd.DataFrame, engine=None):
         upload_df['measured_at'].notna(), None
     )
 
-    upload_df.to_sql('battery_measurement', engine, if_exists='replace', index=False)
+    with engine.begin() as conn:
+        conn.execute(text("SET FOREIGN_KEY_CHECKS = 0;"))
+        conn.execute(text("TRUNCATE TABLE battery_measurement;"))
+        conn.execute(text("SET FOREIGN_KEY_CHECKS = 1;"))
+
+    upload_df.to_sql('battery_measurement', engine, if_exists='append', index=False)
     print(f"[DB] battery_measurement 테이블 적재: {len(upload_df)}건")
 
 
@@ -101,7 +111,12 @@ def upload_predictions(predictions_df: pd.DataFrame, engine=None):
         'prediction_error', 'split_type'
     ]].copy()
 
-    upload_df.to_sql('ai_prediction', engine, if_exists='replace', index=False)
+    with engine.begin() as conn:
+        conn.execute(text("SET FOREIGN_KEY_CHECKS = 0;"))
+        conn.execute(text("TRUNCATE TABLE ai_prediction;"))
+        conn.execute(text("SET FOREIGN_KEY_CHECKS = 1;"))
+
+    upload_df.to_sql('ai_prediction', engine, if_exists='append', index=False)
     print(f"[DB] ai_prediction 테이블 적재: {len(upload_df)}건")
 
 
@@ -117,7 +132,13 @@ def upload_model_info(model_meta: dict, engine=None):
         engine = get_db_engine()
 
     model_df = pd.DataFrame([model_meta])
-    model_df.to_sql('ai_model', engine, if_exists='replace', index=False)
+
+    with engine.begin() as conn:
+        conn.execute(text("SET FOREIGN_KEY_CHECKS = 0;"))
+        conn.execute(text("TRUNCATE TABLE ai_model;"))
+        conn.execute(text("SET FOREIGN_KEY_CHECKS = 1;"))
+
+    model_df.to_sql('ai_model', engine, if_exists='append', index=False)
     print(f"[DB] ai_model 테이블 적재: {model_meta['model_name']}")
 
 
@@ -160,5 +181,10 @@ def upload_bms_data(bms_df: pd.DataFrame, engine=None):
     df.loc[cutoff_mask, 'status'] = 'warning'
     df.loc[cutoff_mask, 'alert_msg'] = 'BMS 차단 상태'
 
-    df.to_sql('bms_data', engine, if_exists='replace', index=False)
+    with engine.begin() as conn:
+        conn.execute(text("SET FOREIGN_KEY_CHECKS = 0;"))
+        conn.execute(text("TRUNCATE TABLE bms_data;"))
+        conn.execute(text("SET FOREIGN_KEY_CHECKS = 1;"))
+
+    df.to_sql('bms_data', engine, if_exists='append', index=False)
     print(f"[DB] bms_data 테이블 적재: {len(df)}건")
