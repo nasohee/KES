@@ -39,7 +39,7 @@ export default function Home() {
     loadData();
   }, [loadData]);
 
-  if (loading) return <LoadingState message="Loading dashboard data..." />;
+  if (loading) return <LoadingState message="대시보드 데이터를 불러오는 중..." />;
   if (error) return <ErrorState message={error} onRetry={loadData} />;
 
   const avgSoh =
@@ -53,8 +53,8 @@ export default function Home() {
   return (
     <div>
       <Header
-        title="Overall Dashboard"
-        subtitle="System-wide battery health overview and BMS simulation status"
+        title="종합 대시보드"
+        subtitle="전체 배터리 상태 요약 및 BMS 시뮬레이션 현황"
         onRefresh={loadData}
         lastUpdated={lastUpdated}
       />
@@ -62,14 +62,14 @@ export default function Home() {
       {/* ── Section 1: Battery Fleet Summary ── */}
       <section className="mb-8">
         <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">
-          Battery Fleet Summary
+          배터리 상태 요약
         </h3>
         <div className="grid grid-cols-5 gap-4 mb-6">
-          <StatCard label="Total Batteries" value={batteries.length} variant="default" />
-          <StatCard label="Average SOH" value={avgSoh.toFixed(1)} unit="%" variant="default" />
-          <StatCard label="Normal" value={normalCount} variant="success" />
-          <StatCard label="Warning" value={warningCount} variant="warning" />
-          <StatCard label="Critical" value={criticalCount} variant="danger" />
+          <StatCard label="전체 배터리 수" value={batteries.length} variant="default" />
+          <StatCard label="평균 SOH" value={avgSoh.toFixed(1)} unit="%" variant="default" />
+          <StatCard label="정상" value={normalCount} variant="success" />
+          <StatCard label="경고" value={warningCount} variant="warning" />
+          <StatCard label="위험" value={criticalCount} variant="danger" />
         </div>
 
         {/* Battery Table */}
@@ -78,19 +78,19 @@ export default function Home() {
             <thead>
               <tr className="border-b border-slate-700/50">
                 <th className="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                  Battery ID
+                  배터리 ID
                 </th>
                 <th className="text-right px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                  Initial Capacity (Ah)
+                  초기 용량 (Ah)
                 </th>
                 <th className="text-right px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                  Current Capacity (Ah)
+                  현재 용량 (Ah)
                 </th>
                 <th className="text-right px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                  Current SOH (%)
+                  현재 SOH (%)
                 </th>
                 <th className="text-center px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                  Health Status
+                  건강 상태
                 </th>
               </tr>
             </thead>
@@ -127,10 +127,10 @@ export default function Home() {
       <section>
         <div className="flex items-center gap-3 mb-4">
           <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider">
-            BMS Simulation Status
+            BMS 시뮬레이션 상태
           </h3>
           <span className="text-[10px] text-slate-600 border border-slate-700 rounded px-1.5 py-0.5">
-            PSIM-based BMS simulation data
+            PSIM 기반 BMS 시뮬레이션 데이터
           </span>
         </div>
 
@@ -141,7 +141,7 @@ export default function Home() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
             </svg>
             <div>
-              <p className="text-sm font-semibold text-amber-400">BMS Alert</p>
+              <p className="text-sm font-semibold text-amber-400">BMS 경고</p>
               <p className="text-xs text-amber-300/80">{bmsStatus.message}</p>
             </div>
           </div>
@@ -150,25 +150,25 @@ export default function Home() {
         {bmsStatus && (
           <div className="grid grid-cols-4 gap-4">
             <StatCard
-              label="Latest Voltage"
+              label="최신 전압"
               value={bmsStatus.voltage.toFixed(2)}
               unit="V"
               variant={bmsStatus.voltage < 3.0 ? 'warning' : 'default'}
             />
             <StatCard
-              label="Latest Current"
+              label="최신 전류"
               value={bmsStatus.current.toFixed(2)}
               unit="A"
               variant="default"
             />
             <StatCard
-              label="BMS Signal"
-              value={bmsStatus.bmsSignal === 1 ? 'ON' : 'OFF'}
+              label="BMS 신호"
+              value={bmsStatus.bmsSignal === 1 ? '정상 (ON)' : '차단 (OFF)'}
               variant={bmsStatus.bmsSignal === 1 ? 'success' : 'danger'}
             />
             <StatCard
-              label="Safety Status"
-              value={bmsStatus.status === 'normal' ? 'Safe' : 'Alert'}
+              label="안전 상태"
+              value={bmsStatus.status === 'normal' ? '안전' : '경고'}
               variant={bmsStatus.status === 'normal' ? 'success' : 'warning'}
             />
           </div>

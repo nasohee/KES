@@ -47,7 +47,7 @@ export default function LineChartCard({
         {title}
       </h3>
       <ResponsiveContainer width="100%" height={height}>
-        <LineChart data={data} margin={{ top: 5, right: 20, bottom: 20, left: 10 }}>
+        <LineChart data={data} margin={{ top: 5, right: 20, bottom: 35, left: 10 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
           <XAxis
             dataKey={xKey}
@@ -77,7 +77,12 @@ export default function LineChartCard({
               color: '#e2e8f0',
             }}
           />
-          {!compact && <Legend wrapperStyle={{ fontSize: '12px', color: '#94a3b8' }} />}
+          {!compact && (
+            <Legend
+              verticalAlign="bottom"
+              wrapperStyle={{ fontSize: '12px', color: '#94a3b8', paddingTop: '20px' }}
+            />
+          )}
           {lines.map((line) => (
             <Line
               key={line.dataKey}

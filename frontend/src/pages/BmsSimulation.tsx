@@ -39,7 +39,7 @@ export default function BmsSimulation() {
     loadData();
   }, [loadData]);
 
-  if (loading) return <LoadingState message="Loading BMS simulation data..." />;
+  if (loading) return <LoadingState message="BMS 시뮬레이션 데이터를 불러오는 중..." />;
   if (error) return <ErrorState message={error} onRetry={loadData} />;
 
   const warningEvents = bmsData.filter(
@@ -49,8 +49,8 @@ export default function BmsSimulation() {
   return (
     <div>
       <Header
-        title="BMS Simulation Monitoring"
-        subtitle="PSIM-based voltage, current, and protection signal analysis"
+        title="BMS 시뮬레이션 모니터링"
+        subtitle="PSIM 기반 전압, 전류 및 보호 신호 분석"
         onRefresh={loadData}
         lastUpdated={lastUpdated}
       />
@@ -59,25 +59,25 @@ export default function BmsSimulation() {
       {bmsStatus && (
         <div className="grid grid-cols-4 gap-4 mb-6">
           <StatCard
-            label="Latest Voltage"
+            label="최신 전압"
             value={bmsStatus.voltage.toFixed(2)}
             unit="V"
             variant={bmsStatus.voltage < 3.0 ? 'warning' : 'default'}
           />
           <StatCard
-            label="Latest Current"
+            label="최신 전류"
             value={bmsStatus.current.toFixed(2)}
             unit="A"
             variant="default"
           />
           <StatCard
-            label="BMS Signal"
-            value={bmsStatus.bmsSignal === 1 ? 'ON (1)' : 'OFF (0)'}
+            label="BMS 신호"
+            value={bmsStatus.bmsSignal === 1 ? '정상 (1)' : '차단 (0)'}
             variant={bmsStatus.bmsSignal === 1 ? 'success' : 'danger'}
           />
           <StatCard
-            label="Safety Status"
-            value={bmsStatus.status === 'normal' ? 'Safe' : 'Alert'}
+            label="안전 상태"
+            value={bmsStatus.status === 'normal' ? '안전' : '경고'}
             variant={bmsStatus.status === 'normal' ? 'success' : 'warning'}
           />
         </div>
@@ -90,43 +90,43 @@ export default function BmsSimulation() {
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
           </svg>
           <div>
-            <p className="text-sm font-semibold text-amber-400">BMS Alert</p>
+            <p className="text-sm font-semibold text-amber-400">BMS 경고</p>
             <p className="text-xs text-amber-300/80">{bmsStatus.message}</p>
           </div>
         </div>
       )}
 
       {bmsData.length === 0 ? (
-        <EmptyState message="No BMS simulation data available." />
+        <EmptyState message="BMS 시뮬레이션 데이터가 없습니다." />
       ) : (
         <>
           {/* ── Main Charts ── */}
           <div className="grid grid-cols-1 gap-4 mb-6">
             <LineChartCard
-              title="Voltage over Time"
+              title="시간에 따른 전압 변화"
               data={bmsData}
               xKey="time"
-              xLabel="Time (s)"
-              yLabel="Voltage (V)"
-              lines={[{ dataKey: 'voltage', name: 'Voltage', color: '#3b82f6' }]}
+              xLabel="시간 (s)"
+              yLabel="전압 (V)"
+              lines={[{ dataKey: 'voltage', name: '전압', color: '#3b82f6' }]}
               height={250}
             />
             <LineChartCard
-              title="Current over Time"
+              title="시간에 따른 전류 변화"
               data={bmsData}
               xKey="time"
-              xLabel="Time (s)"
-              yLabel="Current (A)"
-              lines={[{ dataKey: 'current', name: 'Current', color: '#06b6d4' }]}
+              xLabel="시간 (s)"
+              yLabel="전류 (A)"
+              lines={[{ dataKey: 'current', name: '전류', color: '#06b6d4' }]}
               height={250}
             />
             <StepChartCard
-              title="BMS Signal over Time"
+              title="시간에 따른 BMS 신호 변화"
               data={bmsData}
               xKey="time"
               yKey="bmsSignal"
-              xLabel="Time (s)"
-              yLabel="BMS Signal"
+              xLabel="시간 (s)"
+              yLabel="BMS 신호"
               color="#f59e0b"
               height={200}
             />
@@ -135,32 +135,32 @@ export default function BmsSimulation() {
           {/* ── Warning / Cutoff Log ── */}
           <section>
             <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">
-              Warning / Cutoff Log
+              경고 및 차단(Cutoff) 로그
             </h3>
             {warningEvents.length === 0 ? (
-              <EmptyState message="No warning events detected." />
+              <EmptyState message="감지된 경고 이벤트가 없습니다." />
             ) : (
               <div className="bg-slate-800/60 border border-slate-700/50 rounded-lg overflow-hidden max-h-80 overflow-y-auto">
                 <table className="w-full text-sm">
                   <thead className="sticky top-0 bg-slate-800">
                     <tr className="border-b border-slate-700/50">
                       <th className="text-left px-4 py-2.5 text-xs font-semibold text-slate-400 uppercase">
-                        Time (s)
+                        시간 (s)
                       </th>
                       <th className="text-right px-4 py-2.5 text-xs font-semibold text-slate-400 uppercase">
-                        Voltage (V)
+                        전압 (V)
                       </th>
                       <th className="text-right px-4 py-2.5 text-xs font-semibold text-slate-400 uppercase">
-                        Current (A)
+                        전류 (A)
                       </th>
                       <th className="text-center px-4 py-2.5 text-xs font-semibold text-slate-400 uppercase">
-                        BMS Signal
+                        BMS 신호
                       </th>
                       <th className="text-center px-4 py-2.5 text-xs font-semibold text-slate-400 uppercase">
-                        Status
+                        상태
                       </th>
                       <th className="text-left px-4 py-2.5 text-xs font-semibold text-slate-400 uppercase">
-                        Alert Message
+                        경고 메시지
                       </th>
                     </tr>
                   </thead>

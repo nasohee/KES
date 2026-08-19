@@ -70,8 +70,8 @@ export default function BatteryAnalysis() {
   return (
     <div>
       <Header
-        title="Battery Analysis"
-        subtitle="AI-based degradation analysis and prediction"
+        title="배터리 분석"
+        subtitle="AI 기반 배터리 열화 분석 및 수명 예측"
         onRefresh={loadBatteryData}
         lastUpdated={lastUpdated}
       />
@@ -79,7 +79,7 @@ export default function BatteryAnalysis() {
       {/* Battery Selector */}
       <div className="flex items-center gap-6 mb-6">
         <div className="flex items-center gap-2">
-          <label className="text-xs text-slate-400 font-medium">Select Battery:</label>
+          <label className="text-xs text-slate-400 font-medium">배터리 선택:</label>
           <select
             value={selectedId}
             onChange={(e) => setSearchParams({ id: e.target.value })}
@@ -102,11 +102,11 @@ export default function BatteryAnalysis() {
               </span>
             </span>
             <span className="text-slate-400">
-              Init:{' '}
+              초기:{' '}
               <span className="text-slate-200">{detail.initialCapacity.toFixed(3)} Ah</span>
             </span>
             <span className="text-slate-400">
-              Current:{' '}
+              현재:{' '}
               <span className="text-slate-200">{detail.currentCapacity.toFixed(3)} Ah</span>
             </span>
             <StatusBadge status={detail.status} />
@@ -114,11 +114,11 @@ export default function BatteryAnalysis() {
         )}
       </div>
 
-      {loading && <LoadingState message="Loading battery analysis data..." />}
+      {loading && <LoadingState message="배터리 분석 데이터를 불러오는 중..." />}
       {error && <ErrorState message={error} onRetry={loadBatteryData} />}
 
       {!loading && !error && degradation.length === 0 && (
-        <EmptyState message="No degradation data available for this battery." />
+        <EmptyState message="이 배터리에 대한 열화 데이터가 없습니다." />
       )}
 
       {!loading && !error && degradation.length > 0 && (
@@ -126,20 +126,20 @@ export default function BatteryAnalysis() {
           {/* ── AI-Based Degradation Prediction ── */}
           <section className="mb-8">
             <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">
-              AI-Based Degradation Prediction
+              AI 기반 수명 열화 예측
             </h3>
             <div className="grid grid-cols-2 gap-4">
               <LineChartCard
-                title="Actual vs Predicted Capacity"
+                title="실제 vs 예측 용량 (Capacity)"
                 data={degradation}
                 xKey="cycle"
                 xLabel="Cycle"
                 yLabel="Capacity (Ah)"
                 lines={[
-                  { dataKey: 'actualCapacity', name: 'Actual Capacity', color: '#3b82f6' },
+                  { dataKey: 'actualCapacity', name: '실제 용량', color: '#3b82f6' },
                   {
                     dataKey: 'predictedCapacity',
-                    name: 'AI Predicted Capacity',
+                    name: 'AI 예측 용량',
                     color: '#f59e0b',
                     strokeDasharray: '5 3',
                   },
@@ -147,16 +147,16 @@ export default function BatteryAnalysis() {
                 height={280}
               />
               <LineChartCard
-                title="Actual vs Predicted SOH"
+                title="실제 vs 예측 SOH"
                 data={degradation}
                 xKey="cycle"
                 xLabel="Cycle"
                 yLabel="SOH (%)"
                 lines={[
-                  { dataKey: 'actualSoh', name: 'Actual SOH', color: '#06b6d4' },
+                  { dataKey: 'actualSoh', name: '실제 SOH', color: '#06b6d4' },
                   {
                     dataKey: 'predictedSoh',
-                    name: 'Predicted SOH',
+                    name: 'AI 예측 SOH',
                     color: '#f59e0b',
                     strokeDasharray: '5 3',
                   },
@@ -169,11 +169,11 @@ export default function BatteryAnalysis() {
           {/* ── Electrochemical Degradation Trends ── */}
           <section className="mb-8">
             <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">
-              Electrochemical Degradation Trends
+              전기화학적 열화 추이
             </h3>
             <div className="grid grid-cols-4 gap-4">
               <LineChartCard
-                title="Capacity"
+                title="용량 (Capacity)"
                 data={measurements}
                 xKey="cycle"
                 xLabel="Cycle"
@@ -183,7 +183,7 @@ export default function BatteryAnalysis() {
                 compact
               />
               <LineChartCard
-                title="Re (Electrolyte Resistance)"
+                title="Re (전해질 저항)"
                 data={measurements}
                 xKey="cycle"
                 xLabel="Cycle"
@@ -193,7 +193,7 @@ export default function BatteryAnalysis() {
                 compact
               />
               <LineChartCard
-                title="Rct (Charge Transfer Resistance)"
+                title="Rct (전하 전달 저항)"
                 data={measurements}
                 xKey="cycle"
                 xLabel="Cycle"
@@ -203,7 +203,7 @@ export default function BatteryAnalysis() {
                 compact
               />
               <LineChartCard
-                title="Ambient Temperature"
+                title="주변 온도"
                 data={measurements}
                 xKey="cycle"
                 xLabel="Cycle"
@@ -220,14 +220,14 @@ export default function BatteryAnalysis() {
             <section>
               <div className="flex items-center gap-3 mb-4">
                 <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider">
-                  AI Model Evaluation Metrics
+                  AI 모델 평가 지표
                 </h3>
                 <span className="text-[10px] text-slate-600 border border-slate-700 rounded px-1.5 py-0.5">
-                  Preview — mock data
+                  미리보기 — 가상 데이터
                 </span>
               </div>
               <div className="grid grid-cols-4 gap-4">
-                <StatCard label="Model" value={metrics.modelName} variant="default" />
+                <StatCard label="모델" value={metrics.modelName} variant="default" />
                 <StatCard label="RMSE" value={metrics.rmse.toFixed(4)} variant="default" />
                 <StatCard label="MAE" value={metrics.mae.toFixed(4)} variant="default" />
                 <StatCard label="R²" value={metrics.r2.toFixed(4)} variant="success" />
