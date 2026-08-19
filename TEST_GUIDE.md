@@ -505,3 +505,57 @@ UNION ALL SELECT 'bms_data', COUNT(*) FROM bms_data;
 | `ModuleNotFoundError: No module named 'xgboost'` | 패키지 미설치 | `pip install -r requirements.txt` |
 | `metadata.csv를 찾을 수 없습니다` | 경로 오류 | `ai/data/raw/metadata.csv` 존재 확인 |
 | `[WARNING] DB 적재 실패` | MySQL 미연결 | DB 없이 테스트 시 정상 동작 (모델 학습은 완료됨) |
+
+---
+
+## Step 5: 프론트엔드 대시보드 테스트
+
+> **전제 조건:** Node.js (v18 이상 권장)가 설치되어 있어야 합니다.
+
+### 5-1. 프론트엔드 실행 (개발 서버)
+
+새 터미널을 열고 프론트엔드 디렉토리로 이동합니다.
+
+```bash
+cd c:\Users\ptw06\projects\KES\frontend
+
+# 의존성 설치 (최초 1회)
+npm install
+
+# 개발 서버 실행
+npm run dev
+```
+
+**정상 출력:**
+```
+  VITE v6.x.x  ready in xxx ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+```
+
+### 5-2. 대시보드 접속 및 확인
+
+브라우저를 열고 `http://localhost:5173/` 으로 접속합니다.
+
+#### 주요 확인 포인트:
+1. **Mock 데이터 모드 확인**: 
+   - 기본적으로 `frontend/.env` 파일의 `VITE_USE_MOCK=true` 설정으로 인해 **가상의 데이터(Mock)**로 렌더링됩니다. 백엔드가 켜져 있지 않아도 화면과 차트를 확인할 수 있습니다.
+2. **페이지 이동 동작**:
+   - 좌측 사이드바를 통해 `Dashboard`, `Battery Analysis`, `BMS Simulation` 페이지가 정상적으로 전환되는지 확인합니다.
+3. **그래프 및 차트 렌더링**:
+   - `Battery Analysis` 페이지에서 4가지 배터리 열화 트렌드 차트가 표시되는지 확인합니다.
+   - `BMS Simulation` 페이지에서 계단형 차트(BMS Signal)와 로그 테이블이 렌더링되는지 확인합니다.
+
+### 5-3. (선택) 백엔드 실제 API 연동 테스트
+
+Mock 데이터 대신 백엔드의 실제 DB 데이터를 프론트엔드에 연결하려면 다음 단계를 수행합니다.
+
+1. **백엔드에 CORS 설정 추가**: 
+   - Spring Boot는 기본적으로 다른 포트(5173)의 요청을 차단합니다. 
+   - `backend/src/main/java/com/kes/bms/config/CorsConfig.java` 파일을 생성하고 프론트엔드의 접근을 허용하도록 설정해야 합니다. (현재 프로젝트에 주석으로만 명시되어 있습니다)
+2. **프론트엔드 환경 변수 수정**:
+   - `frontend/.env` 파일을 열고 `VITE_USE_MOCK=false` 로 변경합니다.
+3. **프론트엔드 서버 재시작**:
+   - 실행 중인 `npm run dev`를 종료(`Ctrl+C`)하고 다시 실행합니다.
+4. 이제 프론트엔드의 차트와 데이터가 Spring Boot 백엔드 서버(`http://localhost:8080`)에서 받아온 DB 데이터로 표시됩니다!
