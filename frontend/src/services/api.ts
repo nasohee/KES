@@ -92,5 +92,4 @@ export async function fetchBmsStatus(): Promise<BmsStatus> {
 export async function fetchModelMetrics(): Promise<ModelMetrics> {
     const { data } = await apiClient.get<ModelMetrics>('/api/models');
     return data;
-
 }
