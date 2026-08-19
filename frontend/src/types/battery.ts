@@ -48,8 +48,9 @@ export interface DegradationResponse {
 }
 
 export interface ModelMetrics {
-  modelName: string;
-  rmse: number;
-  mae: number;
-  r2: number;
+    modelName: string;
+    rmse: number;
+    mae: number;
+    r2Score: number;
+    trainedAt: string;
 }
